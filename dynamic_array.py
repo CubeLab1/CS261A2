@@ -132,13 +132,18 @@ class DynamicArray:
         """
         Resize the array to a new capacity.
         """
+        if new_capacity <= 0:
+            raise ValueError("Array size must be a positive integer")
         if new_capacity < self._size:
             return  # Do not allow resizing to a smaller capacity than the current size
+        
         new_data = StaticArray(new_capacity)
         for i in range(self._size):
             new_data[i] = self._data[i]
+        
         self._data = new_data
         self._capacity = new_capacity
+
 
 
     def append(self, value: object) -> None:
@@ -168,13 +173,21 @@ class DynamicArray:
         Remove an element at the specified index.
         """
         if index < 0 or index >= self._size:
-            raise DynamicArrayException
+            raise DynamicArrayException("Index out of bounds")
+        
+        # Shift elements to the left to fill the gap
         for i in range(index, self._size - 1):
             self._data[i] = self._data[i + 1]
+        
         self._size -= 1
         self._data[self._size] = None  # Clear the last element
+        
+        # Check if we need to resize
         if self._size < self._capacity // 4 and self._capacity > 4:
-            self.resize(max(4, self._capacity // 2))
+            # Calculate new capacity, ensuring it does not go below initial capacity
+            new_capacity = max(4, self._capacity // 2)
+            self.resize(new_capacity)
+
 
 
 
@@ -238,21 +251,36 @@ def find_mode(arr: DynamicArray) -> tuple[DynamicArray, int]:
     if arr.is_empty():
         return DynamicArray(), 0
 
-    frequency_dict = {}
+    unique_elements = DynamicArray()
+    frequencies = DynamicArray()
+
+    # Populate unique_elements and frequencies
     for i in range(arr.length()):
         value = arr[i]
-        if value in frequency_dict:
-            frequency_dict[value] += 1
-        else:
-            frequency_dict[value] = 1
+        found = False
+        for j in range(unique_elements.length()):
+            if unique_elements[j] == value:
+                frequencies[j] += 1
+                found = True
+                break
+        if not found:
+            unique_elements.append(value)
+            frequencies.append(1)
 
-    max_frequency = max(frequency_dict.values())
+    # Find the maximum frequency
+    max_frequency = 0
+    for i in range(frequencies.length()):
+        if frequencies[i] > max_frequency:
+            max_frequency = frequencies[i]
+
+    # Collect all elements with the maximum frequency
     mode_da = DynamicArray()
-    for key, value in frequency_dict.items():
-        if value == max_frequency:
-            mode_da.append(key)
+    for i in range(frequencies.length()):
+        if frequencies[i] == max_frequency:
+            mode_da.append(unique_elements[i])
 
     return mode_da, max_frequency
+
 
 
 
