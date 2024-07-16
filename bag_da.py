@@ -45,21 +45,11 @@ class Bag:
     def equal(self, second_bag: "Bag") -> bool:
         if self.size() != second_bag.size():
             return False
-        first_bag_dict = {}
-        second_bag_dict = {}
         for i in range(self._da.length()):
             value = self._da.get_at_index(i)
-            if value in first_bag_dict:
-                first_bag_dict[value] += 1
-            else:
-                first_bag_dict[value] = 1
-        for i in range(second_bag.size()):
-            value = second_bag._da.get_at_index(i)
-            if value in second_bag_dict:
-                second_bag_dict[value] += 1
-            else:
-                second_bag_dict[value] = 1
-        return first_bag_dict == second_bag_dict
+            if self.count(value) != second_bag.count(value):
+                return False
+        return True
 
     def __iter__(self):
         self._index = 0
@@ -72,4 +62,3 @@ class Bag:
             return value
         else:
             raise StopIteration
-
