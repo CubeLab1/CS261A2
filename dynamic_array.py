@@ -191,10 +191,7 @@ class DynamicArray:
             # Calculate new capacity
             new_capacity = max(16, self._capacity // 2)
             self.resize(new_capacity)
-        elif self._size < self._capacity // 2 and self._capacity > 10:
-            # Ensure capacity matches expected values for specific test cases
-            new_capacity = max(10, self._capacity // 2)
-            self.resize(new_capacity)
+
 
 
 
