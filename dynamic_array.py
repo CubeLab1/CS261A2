@@ -189,7 +189,7 @@ class DynamicArray:
         # Check if we need to resize
         if self._size < self._capacity // 4 and self._capacity > 16:
             # Calculate new capacity
-            new_capacity = max(10, self._capacity // 2)
+            new_capacity = max(16, self._capacity // 2)
             if new_capacity < self._size:
                 new_capacity = self._size  # Ensure new_capacity is not smaller than the current size
             self.resize(new_capacity)
