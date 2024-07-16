@@ -5,91 +5,56 @@
 # Due Date:
 # Description:
 
-
-from dynamic_array import *
+from dynamic_array import DynamicArray
 
 class Bag:
     def __init__(self, start_bag=None):
-        """
-        Init new bag based on Dynamic Array
-        DO NOT CHANGE THIS METHOD IN ANY WAY
-        """
         self._da = DynamicArray()
-
-        # populate bag with initial values (if provided)
-        # before using this feature, implement add() method
         if start_bag is not None:
             for value in start_bag:
                 self.add(value)
 
     def __str__(self) -> str:
-        """
-        Return content of stack in human-readable form
-        DO NOT CHANGE THIS METHOD IN ANY WAY
-        """
         out = "BAG: " + str(self._da.length()) + " elements. ["
-        out += ', '.join([str(self._da.get_at_index(_))
-                          for _ in range(self._da.length())])
+        out += ', '.join([str(self._da.get_at_index(_)) for _ in range(self._da.length())])
         return out + ']'
 
     def size(self) -> int:
-        """
-        Return total number of items currently in the bag
-        DO NOT CHANGE THIS METHOD IN ANY WAY
-        """
         return self._da.length()
 
-    # -----------------------------------------------------------------------
-
     def add(self, value: object) -> None:
-        """
-        Add a new element to the bag.
-        """
         self._da.append(value)
 
     def remove(self, value: object) -> bool:
-        """
-        Remove one occurrence of the specified value from the bag.
-        Return True if an element was removed, False otherwise.
-        """
         for i in range(self._da.length()):
-            if self._da[i] == value:
+            if self._da.get_at_index(i) == value:
                 self._da.remove_at_index(i)
                 return True
         return False
 
     def count(self, value: object) -> int:
-        """
-        Count the number of occurrences of the specified value in the bag.
-        """
         count = 0
         for i in range(self._da.length()):
-            if self._da[i] == value:
+            if self._da.get_at_index(i) == value:
                 count += 1
         return count
 
     def clear(self) -> None:
-        """
-        Clear all elements from the bag.
-        """
         self._da = DynamicArray()
 
     def equal(self, second_bag: "Bag") -> bool:
-        """
-        Check if two bags are equal (contain the same elements in the same frequency).
-        """
         if self.size() != second_bag.size():
             return False
         first_bag_dict = {}
         second_bag_dict = {}
         for i in range(self._da.length()):
-            value = self._da[i]
+            value = self._da.get_at_index(i)
             if value in first_bag_dict:
                 first_bag_dict[value] += 1
             else:
                 first_bag_dict[value] = 1
         for i in range(second_bag.size()):
-            value = second_bag._da[i]
+            value = second_bag._da.get_at_index(i)
             if value in second_bag_dict:
                 second_bag_dict[value] += 1
             else:
@@ -97,23 +62,16 @@ class Bag:
         return first_bag_dict == second_bag_dict
 
     def __iter__(self):
-        """
-        Create an iterator for the bag.
-        """
         self._index = 0
         return self
 
     def __next__(self):
-        """
-        Obtain the next value and advance the iterator.
-        """
         if self._index < self._da.length():
-            value = self._da[self._index]
+            value = self._da.get_at_index(self._index)
             self._index += 1
             return value
         else:
             raise StopIteration
-
 
 # ------------------- BASIC TESTING -----------------------------------------
 
