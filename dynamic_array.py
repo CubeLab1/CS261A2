@@ -5,6 +5,13 @@
 # Due Date: 7/15/2024
 # Description: Dynamic/ Static array and bag
 
+# Name: Jesus Martinez
+# OSU Email: martjes6@oregonstate.edu
+# Course: CS261 - Data Structures
+# Assignment: 2
+# Due Date: 7/15/2024
+# Description: Dynamic/ Static array and bag
+
 from static_array import StaticArray
 
 class DynamicArrayException(Exception):
@@ -128,28 +135,23 @@ class DynamicArray:
 
     # -----------------------------------------------------------------------
 
-    def remove_at_index(self, index: int) -> None:
+    def resize(self, new_capacity: int) -> None:
         """
-        Remove an element at the specified index.
+        Resize the array to a new capacity.
         """
-        if index < 0 or index >= self._size:
-            raise DynamicArrayException("Index out of bounds")
-        
-        # Shift elements to the left to fill the gap
-        for i in range(index, self._size - 1):
-            self._data[i] = self._data[i + 1]
-        
-        self._size -= 1
-        self._data[self._size] = None  # Clear the last element
+        if new_capacity == 0:
+            # If new_capacity is 0, but the array is empty, no need to resize, just return
+            return
+        elif new_capacity < self._size:
+            return  # Do not allow resizing to a smaller capacity than the current size
+        elif new_capacity < 0:
+            raise ValueError("Array size must be a positive integer")
     
-        # Resize if necessary
-        if self._size < self._capacity // 4 and self._capacity > 16:
-            new_capacity = max(16, self._capacity // 2)
-            self.resize(new_capacity)
-        elif self._size < self._capacity // 2 and self._capacity > 32:
-            new_capacity = max(32, self._capacity // 2)
-            self.resize(new_capacity)
-
+        new_data = StaticArray(new_capacity)
+        for i in range(self._size):
+            new_data[i] = self._data[i]
+        self._data = new_data
+        self._capacity = new_capacity
 
 
 
