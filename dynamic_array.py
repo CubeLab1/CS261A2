@@ -132,17 +132,20 @@ class DynamicArray:
         """
         Resize the array to a new capacity.
         """
-        if new_capacity <= 0:
-            raise ValueError("Array size must be a positive integer")
-        if new_capacity < self._size:
+        if new_capacity == 0:
+            # If new_capacity is 0, but the array is empty, no need to resize, just return
+            return
+        elif new_capacity < self._size:
             return  # Do not allow resizing to a smaller capacity than the current size
-        
+        elif new_capacity < 0:
+            raise ValueError("Array size must be a positive integer")
+    
         new_data = StaticArray(new_capacity)
         for i in range(self._size):
             new_data[i] = self._data[i]
-        
         self._data = new_data
         self._capacity = new_capacity
+
 
 
 
@@ -181,12 +184,13 @@ class DynamicArray:
         
         self._size -= 1
         self._data[self._size] = None  # Clear the last element
-        
+    
         # Check if we need to resize
-        if self._size < self._capacity // 4 and self._capacity > 4:
-            # Calculate new capacity, ensuring it does not go below initial capacity
-            new_capacity = max(4, self._capacity // 2)
+        if self._size < self._capacity // 4 and self._capacity > 16:
+            # Calculate new capacity, ensuring it does not go below 16
+            new_capacity = max(16, self._capacity // 2)
             self.resize(new_capacity)
+
 
 
 
