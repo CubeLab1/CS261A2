@@ -1,3 +1,4 @@
+
 # Name: Jesus Martinez
 # OSU Email: martjes6@oregonstate.edu
 # Course: CS261 - Data Structures
@@ -171,29 +172,26 @@ class DynamicArray:
         self._data[index] = value
         self._size += 1
 
-   def remove_at_index(self, index: int) -> None:
+    def remove_at_index(self, index: int) -> None:
         """
         Remove an element at the specified index.
         """
         if index < 0 or index >= self._size:
             raise DynamicArrayException("Index out of bounds")
-    
+
         # Shift elements to the left to fill the gap
         for i in range(index, self._size - 1):
             self._data[i] = self._data[i + 1]
-    
+
         self._size -= 1
         self._data[self._size] = None  # Clear the last element
-    
+
         # Check if we need to resize
         if self._size < self._capacity // 4 and self._capacity > 16:
             # Calculate new capacity
             new_capacity = max(16, self._capacity // 2)
-            if new_capacity < self._size:
-                new_capacity = self._size  # Ensure we don't resize to less than the current size
-            self.resize(new_capacity)
-
-
+            if new_capacity >= self._size:  # Ensure we don't resize to less than the current size
+                self.resize(new_capacity)
 
 
 
