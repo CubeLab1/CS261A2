@@ -129,16 +129,16 @@ class DynamicArray:
     # -----------------------------------------------------------------------
 
     def resize(self, new_capacity: int) -> None:
-        """
-        Resize the array to a new capacity.
-        """
-        if new_capacity < self._size:
-            new_capacity = self._size
-        new_data = StaticArray(new_capacity)
-        for i in range(self._size):
-            new_data[i] = self._data[i]
-        self._data = new_data
-        self._capacity = new_capacity
+    """
+    Resize the array to a new capacity.
+    """
+    if new_capacity < self._size:
+        return  # Do not allow resizing to a smaller capacity than the current size
+    new_data = StaticArray(new_capacity)
+    for i in range(self._size):
+        new_data[i] = self._data[i]
+    self._data = new_data
+    self._capacity = new_capacity
 
     def append(self, value: object) -> None:
         """
@@ -163,14 +163,18 @@ class DynamicArray:
         self._size += 1
 
     def remove_at_index(self, index: int) -> None:
-        """
-        Remove an element at the specified index.
-        """
-        if index < 0 or index >= self._size:
-            raise DynamicArrayException
-        for i in range(index, self._size - 1):
-            self._data[i] = self._data[i + 1]
-        self._size -= 1
+    """
+    Remove an element at the specified index.
+    """
+    if index < 0 or index >= self._size:
+        raise DynamicArrayException
+    for i in range(index, self._size - 1):
+        self._data[i] = self._data[i + 1]
+    self._size -= 1
+    self._data[self._size] = None  # Clear the last element
+    if self._size < self._capacity // 4 and self._capacity > 4:
+        self.resize(max(4, self._capacity // 2))
+
 
     def slice(self, start_index: int, size: int) -> "DynamicArray":
         """
@@ -234,10 +238,11 @@ def find_mode(arr: DynamicArray) -> tuple[DynamicArray, int]:
 
     frequency_dict = {}
     for i in range(arr.length()):
-        if arr[i] in frequency_dict:
-            frequency_dict[arr[i]] += 1
+        value = arr[i]
+        if value in frequency_dict:
+            frequency_dict[value] += 1
         else:
-            frequency_dict[arr[i]] = 1
+            frequency_dict[value] = 1
 
     max_frequency = max(frequency_dict.values())
     mode_da = DynamicArray()
@@ -246,6 +251,7 @@ def find_mode(arr: DynamicArray) -> tuple[DynamicArray, int]:
             mode_da.append(key)
 
     return mode_da, max_frequency
+
 
 
 # ------------------- BASIC TESTING -----------------------------------------
