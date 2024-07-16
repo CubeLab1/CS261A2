@@ -132,13 +132,14 @@ class DynamicArray:
         """
         Resize the array to a new capacity.
         """
-        if new_capacity < self._size or new_capacity <= 0:
-            raise DynamicArrayException("Array size must be a positive integer")
+        if new_capacity < self._size:
+            return  # Do not allow resizing to a smaller capacity than the current size
         new_data = StaticArray(new_capacity)
         for i in range(self._size):
             new_data[i] = self._data[i]
         self._data = new_data
         self._capacity = new_capacity
+
 
     def append(self, value: object) -> None:
         """
@@ -174,6 +175,7 @@ class DynamicArray:
         self._data[self._size] = None  # Clear the last element
         if self._size < self._capacity // 4 and self._capacity > 4:
             self.resize(max(4, self._capacity // 2))
+
 
 
     def slice(self, start_index: int, size: int) -> "DynamicArray":
@@ -251,6 +253,7 @@ def find_mode(arr: DynamicArray) -> tuple[DynamicArray, int]:
             mode_da.append(key)
 
     return mode_da, max_frequency
+
 
 
 
