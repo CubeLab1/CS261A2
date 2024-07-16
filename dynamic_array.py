@@ -5,13 +5,6 @@
 # Due Date: 7/15/2024
 # Description: Dynamic/ Static array and bag
 
-# Name: Jesus Martinez
-# OSU Email: martjes6@oregonstate.edu
-# Course: CS261 - Data Structures
-# Assignment: 2
-# Due Date: 7/15/2024
-# Description: Dynamic/ Static array and bag
-
 from static_array import StaticArray
 
 class DynamicArrayException(Exception):
