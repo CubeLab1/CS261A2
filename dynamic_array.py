@@ -1,9 +1,9 @@
-# Name:
-# OSU Email:
+# Name: Jesus Martinez
+# OSU Email: martjes6@oregonstate.edu
 # Course: CS261 - Data Structures
-# Assignment:
-# Due Date:
-# Description:
+# Assignment: 2
+# Due Date: 7/15/2024
+# Description: Dynamic/ Static array and bag
 
 from static_array import StaticArray
 
@@ -129,16 +129,16 @@ class DynamicArray:
     # -----------------------------------------------------------------------
 
     def resize(self, new_capacity: int) -> None:
-    """
-    Resize the array to a new capacity.
-    """
-    if new_capacity < self._size:
-        return  # Do not allow resizing to a smaller capacity than the current size
-    new_data = StaticArray(new_capacity)
-    for i in range(self._size):
-        new_data[i] = self._data[i]
-    self._data = new_data
-    self._capacity = new_capacity
+        """
+        Resize the array to a new capacity.
+        """
+        if new_capacity < self._size:
+            return  # Do not allow resizing to a smaller capacity than the current size
+        new_data = StaticArray(new_capacity)
+        for i in range(self._size):
+            new_data[i] = self._data[i]
+        self._data = new_data
+        self._capacity = new_capacity
 
     def append(self, value: object) -> None:
         """
@@ -163,17 +163,17 @@ class DynamicArray:
         self._size += 1
 
     def remove_at_index(self, index: int) -> None:
-    """
-    Remove an element at the specified index.
-    """
-    if index < 0 or index >= self._size:
-        raise DynamicArrayException
-    for i in range(index, self._size - 1):
-        self._data[i] = self._data[i + 1]
-    self._size -= 1
-    self._data[self._size] = None  # Clear the last element
-    if self._size < self._capacity // 4 and self._capacity > 4:
-        self.resize(max(4, self._capacity // 2))
+        """
+        Remove an element at the specified index.
+        """
+        if index < 0 or index >= self._size:
+            raise DynamicArrayException
+        for i in range(index, self._size - 1):
+            self._data[i] = self._data[i + 1]
+        self._size -= 1
+        self._data[self._size] = None  # Clear the last element
+        if self._size < self._capacity // 4 and self._capacity > 4:
+            self.resize(max(4, self._capacity // 2))
 
 
     def slice(self, start_index: int, size: int) -> "DynamicArray":
