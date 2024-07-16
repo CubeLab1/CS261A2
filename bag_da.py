@@ -1,9 +1,9 @@
-# Name:
-# OSU Email:
+# Name: Jesus Martinez
+# OSU Email: martjes6@oregonstate.edu
 # Course: CS261 - Data Structures
-# Assignment:
-# Due Date:
-# Description:
+# Assignment: 2
+# Due Date: 7/15/2024
+# Description: Dynamic/ Static array and bag
 
 from dynamic_array import DynamicArray
 
